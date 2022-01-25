@@ -11,12 +11,18 @@ import {
   Tr,
   Tbody,
   Text,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import { Header, Pagination, Sidebar } from "../../components";
 
-const userList: NextPage = () => {
+const UserList: NextPage = () => {
+  const isWideVersion = useBreakpointValue({
+    base: false,
+    lg: true,
+  });
+
   return (
     <Box>
       <Header />
@@ -41,17 +47,16 @@ const userList: NextPage = () => {
           <Table colorScheme="whiteAlpha">
             <Thead>
               <Tr>
-                <Th px={6} color="gray.300" width={8}>
+                <Th px={["4", "4", "6"]} color="gray.300" width={8}>
                   <Checkbox colorScheme="pink" />
                 </Th>
                 <Th>User</Th>
-                <Th>Date of registration</Th>
-                <Th width={8} />
+                {isWideVersion && <Th>Date of registration</Th>}
               </Tr>
             </Thead>
             <Tbody>
               <Tr>
-                <Th px={6}>
+                <Th px={["4", "4", "6"]}>
                   <Checkbox colorScheme="pink" />
                 </Th>
                 <Th>
@@ -62,18 +67,7 @@ const userList: NextPage = () => {
                     </Text>
                   </Box>
                 </Th>
-                <Th>04 de Abril, 2021</Th>
-                <Th>
-                  <Button
-                    as="a"
-                    size="sm"
-                    fontSize="sm"
-                    colorScheme="purple"
-                    leftIcon={<Icon fontSize={16} as={RiPencilLine} />}
-                  >
-                    Edit
-                  </Button>
-                </Th>
+                {isWideVersion && <Th>04 de Abril, 2021</Th>}
               </Tr>
             </Tbody>
           </Table>
@@ -84,4 +78,4 @@ const userList: NextPage = () => {
   );
 };
 
-export default userList;
+export default UserList;
