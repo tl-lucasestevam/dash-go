@@ -12,12 +12,20 @@ const Nav = () => {
   return (
     <Stack spacing={12} align="flex-start">
       <Section title="General">
-        <NavLink icon={RiDashboardLine}>Dashboard</NavLink>
-        <NavLink icon={RiContactsLine}>Users</NavLink>
+        <NavLink href="/dashboard" icon={RiDashboardLine}>
+          Dashboard
+        </NavLink>
+        <NavLink href="/users" icon={RiContactsLine}>
+          Users
+        </NavLink>
       </Section>
       <Section title="Automatic">
-        <NavLink icon={RiInputMethodLine}>Forms</NavLink>
-        <NavLink icon={RiGitMergeLine}>Automatic</NavLink>
+        <NavLink href="/forms" icon={RiInputMethodLine}>
+          Forms
+        </NavLink>
+        <NavLink href="/automatic" icon={RiGitMergeLine}>
+          Automatic
+        </NavLink>
       </Section>
     </Stack>
   );
