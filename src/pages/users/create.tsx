@@ -9,41 +9,105 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { NextPage } from "next";
-import Link from "next/link";
 import { Header, Input, Sidebar } from "../../components";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { SubmitHandler, useForm } from "react-hook-form";
+import Link from "next/link";
 
-const createUser: NextPage = () => {
+interface CreateUerFormData {
+  [x: string]: any;
+}
+
+const createUserFormSchema = yup.object().shape({
+  name: yup.string().required("Name is a required field"),
+  email: yup
+    .string()
+    .required("Email is a required field")
+    .email("Email must be a valid email"),
+  password: yup
+    .string()
+    .required("Password is a required field")
+    .min(6, "The password need to have at least 6 characters"),
+  passwordConfirmation: yup
+    .string()
+    .required("Password Confirmation is a required field")
+    .oneOf([null, yup.ref("password")], "Passwords must be the same"),
+});
+
+const CreateUser: NextPage = () => {
+  const { register, handleSubmit, formState } = useForm({
+    resolver: yupResolver(createUserFormSchema),
+  });
+  const { errors } = formState;
+
+  const handleCreateUser: SubmitHandler<CreateUerFormData> = async ({
+    name,
+    email,
+    password,
+    passwordConfirmation,
+  }) => {
+    console.log(name, email, password, passwordConfirmation);
+  };
+
   return (
     <Box>
       <Header />
       <Flex w="100%" my={6} maxWidth={1480} mx="auto" px={6}>
         <Sidebar />
-
-        <Box flex="1" borderRadius={8} bg="gray.800" p={8}>
+        <Box
+          as="form"
+          flex="1"
+          borderRadius={8}
+          bg="gray.800"
+          p={8}
+          onSubmit={handleSubmit(handleCreateUser)}
+        >
           <Heading size="lg" fontWeight="normal">
             Create User
           </Heading>
           <Divider my={6} borderColor="gray.700" />
           <VStack spacing={8}>
             <SimpleGrid minChildWidth={240} spacing={8} w="100%">
-              <Input name="name" label="Full Name" />
-              <Input name="email" type="email" label="Email" />
+              <Input
+                error={errors.name}
+                label="Full Name"
+                {...register("name")}
+              />
+              <Input
+                error={errors.email}
+                type="email"
+                label="Email"
+                {...register("email")}
+              />
             </SimpleGrid>
             <SimpleGrid minChildWidth={240} spacing={8} w="100%">
-              <Input name="password" type="password" label="Password" />
               <Input
-                name="passwordConfirmation"
+                error={errors.password}
+                type="password"
+                label="Password"
+                {...register("password")}
+              />
+              <Input
+                error={errors.passwordConfirmation}
                 type="password"
                 label="Password Confirmation"
+                {...register("passwordConfirmation")}
               />
             </SimpleGrid>
           </VStack>
           <Flex mt={8} justify="flex-end">
             <HStack spacing={4}>
-              <Button colorScheme="whiteAlpha">Cancel</Button>
               <Link href="/users" passHref>
-                <Button colorScheme="pink">Create</Button>
+                <Button colorScheme="whiteAlpha">Cancel</Button>
               </Link>
+              <Button
+                isLoading={formState.isSubmitting}
+                colorScheme="pink"
+                type="submit"
+              >
+                Create
+              </Button>
             </HStack>
           </Flex>
         </Box>
@@ -52,4 +116,4 @@ const createUser: NextPage = () => {
   );
 };
 
-export default createUser;
+export default CreateUser;
