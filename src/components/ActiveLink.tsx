@@ -25,6 +25,7 @@ const ActiveLink = ({
   ) {
     isActive = true;
   }
+
   return (
     <Link {...rest}>
       {cloneElement(children, { color: isActive ? "pink.400" : "gray.50" })}
