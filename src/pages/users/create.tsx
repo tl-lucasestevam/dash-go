@@ -14,6 +14,9 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
+import { useMutation } from "react-query";
+import { api, queryClient } from "../../services";
+import { useRouter } from "next/router";
 
 interface CreateUerFormData {
   [x: string]: any;
@@ -36,18 +39,32 @@ const createUserFormSchema = yup.object().shape({
 });
 
 const CreateUser: NextPage = () => {
+  const router = useRouter();
+  const createUser = useMutation(
+    async (user: CreateUerFormData) => {
+      const response = await api.post("users", {
+        user: {
+          ...user,
+          created_at: new Date(),
+        },
+      });
+
+      return response.data.user;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("users");
+        router.push("/users");
+      },
+    }
+  );
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(createUserFormSchema),
   });
   const { errors } = formState;
 
-  const handleCreateUser: SubmitHandler<CreateUerFormData> = async ({
-    name,
-    email,
-    password,
-    passwordConfirmation,
-  }) => {
-    console.log(name, email, password, passwordConfirmation);
+  const handleCreateUser: SubmitHandler<CreateUerFormData> = async (values) => {
+    await createUser.mutateAsync(values);
   };
 
   return (

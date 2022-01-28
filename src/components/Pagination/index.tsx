@@ -48,15 +48,17 @@ const Pagination = ({
     >
       <Box>
         <Text>
-          <strong>{registersPerPage * currentPage - registersPerPage}</strong> -{" "}
-          <strong>{registersPerPage * currentPage}</strong> of{" "}
+          <strong>
+            {registersPerPage * currentPage - registersPerPage + 1}
+          </strong>{" "}
+          - <strong>{registersPerPage * currentPage}</strong> of{" "}
           <strong>{totalCountOfRegisters}</strong>
         </Text>
       </Box>
       <Stack direction="row" spacing={2}>
         {currentPage > 1 + siblingCount && (
           <>
-            <Item number={1} />
+            <Item onPageChange={onPageChange} number={1} />
             {currentPage > 2 + siblingCount && (
               <Text color="gray.300" w={8} textAlign="center">
                 ...
@@ -66,12 +68,16 @@ const Pagination = ({
         )}
 
         {previousPages.length > 0 &&
-          previousPages.map((page) => <Item key={page} number={page} />)}
+          previousPages.map((page) => (
+            <Item onPageChange={onPageChange} key={page} number={page} />
+          ))}
 
-        <Item number={currentPage} isCurrent />
+        <Item onPageChange={onPageChange} number={currentPage} isCurrent />
 
         {nextPages.length > 0 &&
-          nextPages.map((page) => <Item key={page} number={page} />)}
+          nextPages.map((page) => (
+            <Item onPageChange={onPageChange} key={page} number={page} />
+          ))}
 
         {currentPage + siblingCount < lastPage && (
           <>
@@ -80,7 +86,7 @@ const Pagination = ({
                 ...
               </Text>
             )}
-            <Item number={lastPage} />
+            <Item onPageChange={onPageChange} number={lastPage} />
           </>
         )}
       </Stack>
