@@ -8,7 +8,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 
 const isDevelopment = process.env.NODE_ENV === "development";
 
-if (isDevelopment) makeServer();
+makeServer();
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
