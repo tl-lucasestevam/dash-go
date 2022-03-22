@@ -4,7 +4,7 @@ const api = axios.create({
   baseURL:
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000/api/"
-      : "https://dash-go-nine.vercel.app/api/",
+      : "https://dashgo.lucasestevam.tech/api/",
 });
 
 export default api;

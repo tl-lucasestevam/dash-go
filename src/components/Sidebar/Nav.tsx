@@ -19,14 +19,6 @@ const Nav = () => {
           Users
         </NavLink>
       </Section>
-      <Section title="Automatic">
-        <NavLink href="/forms" icon={RiInputMethodLine}>
-          Forms
-        </NavLink>
-        <NavLink href="/automatic" icon={RiGitMergeLine}>
-          Automatic
-        </NavLink>
-      </Section>
     </Stack>
   );
 };

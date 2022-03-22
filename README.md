@@ -12,7 +12,7 @@
 />
 
 <h2 align="center"> 
-	<a href="https://dash-go-nine.vercel.app">View Demo</a>
+	<a href="https://dashgo.lucasestevam.tech">View Demo</a>
 </h2>
 
 <h2 align="center">🚧 | Project still under development</h2>
